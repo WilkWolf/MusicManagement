@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicManagement.Language", "MusicManagement.Language\MusicManagement.Language.csproj", "{97E41399-50A2-46DC-AF9A-7C71539B3A49}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicManagement", "MusicManagement\MusicManagement.csproj", "{5E9733E9-2B8C-490C-B478-98289A5B044E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{97E41399-50A2-46DC-AF9A-7C71539B3A49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97E41399-50A2-46DC-AF9A-7C71539B3A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97E41399-50A2-46DC-AF9A-7C71539B3A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97E41399-50A2-46DC-AF9A-7C71539B3A49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E9733E9-2B8C-490C-B478-98289A5B044E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E9733E9-2B8C-490C-B478-98289A5B044E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E9733E9-2B8C-490C-B478-98289A5B044E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E9733E9-2B8C-490C-B478-98289A5B044E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15BCC2A6-71B0-441B-91E8-036D1A8377A8}
+	EndGlobalSection
+EndGlobal
