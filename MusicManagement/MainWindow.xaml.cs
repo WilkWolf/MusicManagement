@@ -1,9 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Threading;
+﻿using System.IO;
 using System.Windows;
-
-
+using System.Reflection;
+using System.Windows.Controls;
+using MusicManagement.Model;
 
 namespace MusicManagement
 {
@@ -12,11 +11,31 @@ namespace MusicManagement
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        public string LangSwitch { get; private set; } = null;
+
         private string _folderName = "";
-        public MainWindow()
+
+        public MainWindow() => InitializeComponent();
+
+        private string GetFileWithPath(string songName) => _folderName + "\\" + songName;
+
+        private void ChangeLanguage_ButtonClick(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
+            switch (LanguageButton.Content)
+            {
+                case "PL":
+                    LangSwitch = "en-EN";
+                    Close();
+                    InformationTextBox.Text = MusicManagement.Resources.Resources.ChangedLanguage;
+                    break;
+                case "EN":
+                    LangSwitch = "pl-PL";
+                    Close();
+                    InformationTextBox.Text = MusicManagement.Resources.Resources.ChangedLanguage;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void GetFoldersContent_ButtonClick(object sender, RoutedEventArgs e)
@@ -31,9 +50,9 @@ namespace MusicManagement
                 {
                     _folderName = openFileDlg.SelectedPath;
                 }
-                catch
+                catch (System.Exception exc)
                 {
-                    Console.WriteLine("No directory selected");
+                    InformationTextBox.Text = MusicManagement.Resources.Resources.NoDictionarySelected;
                 }
             }
             DisplaySongFromFolder();
@@ -48,52 +67,59 @@ namespace MusicManagement
 
                 foreach (var item in music)
                 {
-                    musicListView.Items.Add(item.Replace($"{_folderName}\\", ""));
+                    Song song = new Song(item);
+                    musicListView.Items.Add(song);
                 }
-                InformationLabel.Content = $"Songs loaded";
+                InformationTextBox.Text = MusicManagement.Resources.Resources.SongsLoaded;
 
             }
-            catch
+            catch (System.Exception exc)
             {
-                InformationLabel.Content = "Problem with loaded songs. Please be sure that you selected folder";
+                InformationTextBox.Text = MusicManagement.Resources.Resources.ProblemWithLoadedSongs;
             }
         }
 
         private void ClearListView_ButtonClick(object sender, RoutedEventArgs e)
         {
             musicListView.Items.Clear();
-            InformationLabel.Content = $"Songs list cleared";
+            InformationTextBox.Text = MusicManagement.Resources.Resources.ClearList;
         }
 
-        private void ClearTitleTextBox_ButtonClick(object sender, RoutedEventArgs e)
+        private void ClearTextBoxFieldByClearButton_ButtonClick(object sender, RoutedEventArgs e)
         {
-            TitleTextBox.Clear();
-            InformationLabel.Content = $"Song title textbox cleared";
+            TextBox textBox = SelectCorrectTextBoxByClearButton((Button)sender);
+            textBox.Clear();
         }
 
-        private void ClearAuthorTextBoxButtonClick(object sender, RoutedEventArgs e)
+        private TextBox SelectCorrectTextBoxByClearButton(Button clearButton)
         {
-            AuthorTextBox.Clear();
-            InformationLabel.Content = $"Author textbox cleared";
-        }
-
-        private void ClearAlbumTextBoxButtonClick(object sender, RoutedEventArgs e)
-        {
-            AlbumTextBox.Clear();
-            InformationLabel.Content = $"Album textbox cleared";
+            switch (clearButton.Name)
+            {
+                case "FileNameClearButton":
+                    InformationTextBox.Text = MusicManagement.Resources.Resources.AlbumTextBoxCleared;
+                    return FileNameTextBox;
+                case "TitleClearButton":
+                    InformationTextBox.Text = MusicManagement.Resources.Resources.TitleTextBoxCleared;
+                    return TitleTextBox;
+                case "AuthorClearButton":
+                    InformationTextBox.Text = MusicManagement.Resources.Resources.AuthorTextBoxCleared;
+                    return AuthorTextBox;
+                case "AlbumClearButton":
+                    InformationTextBox.Text = MusicManagement.Resources.Resources.AlbumTextBoxCleared;
+                    return AlbumTextBox;
+                case "NumberClearButton":
+                    return SongNumberTextBox;
+                default:
+                    return null;
+            }
         }
 
         private void ClearFormBoxButtonClick(object sender, RoutedEventArgs e)
         {
             ClearForm();
-            InformationLabel.Content = $"Form cleared";
+            InformationTextBox.Text = MusicManagement.Resources.Resources.FormTextBoxCleared;
         }
 
-        private void ClearFileNameTextBox_ButtonClick(object sender, RoutedEventArgs e)
-        {
-            FileNameTextBox.Clear();
-            InformationLabel.Content = $"Album textbox cleared";
-        }
         private void ClearForm()
         {
             TitleTextBox.Clear();
@@ -102,237 +128,158 @@ namespace MusicManagement
             AlbumTextBox.Clear();
         }
 
-        private void ChangeSongFileName_ButtonClick(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (musicListView.SelectedItem == null)
-                {
-                    InformationLabel.Content = "Non song was selected.";
-                }
-                else
-                {
-                    string selectedSong = musicListView.SelectedItem.ToString();
-
-                    string newName = FileNameTextBox.Text;
-                    if (newName == "")
-                    {
-                        InformationLabel.Content = "New name cannot be empty";
-                    }
-                    else
-                    {
-                        string extension = Path.GetExtension(GetFileWithPath(selectedSong));
-                        newName += extension;
-                        File.Move(GetFileWithPath(selectedSong), GetFileWithPath(newName));
-                        DisplaySongFromFolder();
-                        InformationLabel.Content = $"Changed name: {selectedSong} => {newName}";
-                    }
-                }
-            }
-            catch (Exception exc)
-            {
-                InformationLabel.Content = $"Error: {exc.Message}";
-            }
-        }
-
-        private void ChangeSongTitle_ButtonClick(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (musicListView.SelectedItem == null)
-                {
-                    InformationLabel.Content = "Non song was selected.";
-                }
-                else
-                {
-                    foreach (var item in musicListView.SelectedItems)
-                    {
-                        var musicFileTags = TagLib.File.Create(GetFileWithPath(item.ToString()));
-                        musicFileTags.Tag.Title = TitleTextBox.Text;
-                        musicFileTags.Save();
-                    }
-
-                    DisplaySongFromFolder();
-                    InformationLabel.Content = $"Selected songs title updated";
-                }
-            }
-            catch (Exception exc)
-            {
-                InformationLabel.Content = $"Error: {exc.Message}";
-            }
-        }
-
-        private void ChangeAuthorForSelectedSongs_ButtonClick(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (musicListView.SelectedItem == null)
-                {
-                    InformationLabel.Content = "Non song was selected.";
-                }
-                else
-                {
-                    foreach (var item in musicListView.SelectedItems)
-                    {
-                        var musicFileTags = TagLib.File.Create(GetFileWithPath(item.ToString()));
-                        musicFileTags.Tag.AlbumArtists = new string[] { AuthorTextBox.Text };
-                        musicFileTags.Save();
-                    }
-
-                    DisplaySongFromFolder();
-                    InformationLabel.Content = $"Selected songs author updated";
-                }
-            }
-            catch (Exception exc)
-            {
-                InformationLabel.Content = $"Error: {exc.Message}";
-            }
-        }
-
-        private void ChangeAlbumForSelectedSongs_ButtonClick(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (musicListView.SelectedItem == null)
-                {
-                    InformationLabel.Content = "Non song was selected.";
-                }
-                else
-                {
-                    foreach (var item in musicListView.SelectedItems)
-                    {
-                        var musicFileTags = TagLib.File.Create(GetFileWithPath(item.ToString()));
-                        musicFileTags.Tag.Album = AlbumTextBox.Text;
-                        musicFileTags.Save();
-                    }
-
-                    DisplaySongFromFolder();
-                    InformationLabel.Content = $"Selected songs album updated";
-                }
-            }
-            catch (Exception exc)
-            {
-                InformationLabel.Content = $"Error: {exc.Message}";
-            }
-        }
-
-        private void ChangeAuthorForAllSongs_ButtonClick(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                if (musicListView.Items.Count == 0)
-                {
-                    InformationLabel.Content = "Non song on list.";
-                }
-                else
-                {
-                    foreach (var item in musicListView.Items)
-                    {
-                        var musicFileTags = TagLib.File.Create(GetFileWithPath(item.ToString()));
-                        musicFileTags.Tag.AlbumArtists = new string[] { AuthorTextBox.Text };
-                        musicFileTags.Save();
-                    }
-
-                    DisplaySongFromFolder();
-                    InformationLabel.Content = $"All songs author updated";
-                }
-            }
-            catch (Exception exc)
-            {
-                InformationLabel.Content = $"Error: {exc.Message}";
-            }
-        }
-
         private void Unselect_ButtonClick(object sender, RoutedEventArgs e)
         {
             musicListView.UnselectAll();
             ClearForm();
-            InformationLabel.Content = "Songs unselected";
+            InformationTextBox.Text = MusicManagement.Resources.Resources.SongsUnselected;
         }
 
-        private string GetFileWithPath(string songName)
+        private void DroppedFiles(object sender, DragEventArgs dragEvent)
         {
-            return _folderName + "\\" + songName;
+            musicListView.Items.Clear();
+
+            var files = (string[])dragEvent.Data.GetData(DataFormats.FileDrop);
+
+            foreach (string droppedFile in files)
+            {
+                if (Directory.Exists(droppedFile))
+                {
+                    foreach (var file in Directory.GetFiles(droppedFile, "*.*", SearchOption.TopDirectoryOnly))
+                    {
+                        Song song = new Song(file);
+                        musicListView.Items.Add(song);
+                    }
+                    _folderName = droppedFile;
+                }
+                else if (File.Exists(droppedFile))
+                {
+                    var file = Path.GetFileName(droppedFile);
+
+                    Song song = new Song(droppedFile);
+                    musicListView.Items.Add(song);
+
+                    _folderName = Path.GetDirectoryName(droppedFile).Replace(file, "");
+                }
+            }
         }
 
         private void MusicListView_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             if (musicListView.SelectedItems.Count == 1)
             {
-                string selectedItem = musicListView.SelectedItem.ToString();
-                var selectedFile = TagLib.File.Create(GetFileWithPath(selectedItem));
-                TitleTextBox.Text = selectedFile.Tag.Title;
-                AuthorTextBox.Text = selectedFile.Tag.FirstAlbumArtist;
-                AlbumTextBox.Text = selectedFile.Tag.Album;
-                SetFileNameButton.IsEnabled = true;
-                SetTitleButton.IsEnabled = true;
-                string extension = Path.GetExtension(GetFileWithPath(selectedItem));
-                FileNameTextBox.Text = selectedItem.Replace(extension, "");
+                SetFormFieldsForOneSong();
             }
             else if (musicListView.SelectedItems.Count > 1)
             {
-                var selectedItem = musicListView.SelectedItems;
-                int i = 0;
-                bool isAlbumTheSame = true;
-                bool isAuthorTheSame = true;
-                string author = "";
-                string album = "";
-                SetFileNameButton.IsEnabled = false;
-                SetTitleButton.IsEnabled = false;
-
-                foreach (var item in selectedItem)
-                {
-                    var fileTags = TagLib.File.Create(GetFileWithPath(item.ToString()));
-
-                    if (i == 0)
-                    {
-                        album = fileTags.Tag.Album;
-                        author = fileTags.Tag.FirstAlbumArtist;
-
-                    }
-                    else
-                    {
-                        if (album != fileTags.Tag.Album)
-                        {
-                            isAlbumTheSame = false;
-                        }
-                        if (author != fileTags.Tag.FirstAlbumArtist)
-                        {
-                            isAuthorTheSame = false;
-                        }
-                    }
-                    i++;
-                }
-
-                AlbumTextBox.Text = isAlbumTheSame ? album : null;
-                AuthorTextBox.Text = isAuthorTheSame ? author : null;
+                UpdateLayoutWhenMoreSongsSelected();
+                SetFromFieldsFromSelectedSongs();
             }
         }
 
-        private void ChangeAlbumForAllSongs_ButtonClick(object sender, RoutedEventArgs e)
+        private void SetFromFieldsFromSelectedSongs()
         {
-            try
+            var selectedSongs = musicListView.SelectedItems;
+            bool isAlbumTheSame = true;
+            bool isAuthorTheSame = true;
+            string author = "";
+            string album = "";
+
+
+            foreach (Song song in selectedSongs)
             {
-                if (musicListView.Items.Count == 0)
+                var fileTags = TagLib.File.Create(GetFileWithPath(song.FileName));
+
+                if (selectedSongs.Count == 0)
                 {
-                    InformationLabel.Content = "Non song on list.";
+                    album = fileTags.Tag.Album;
+                    author = fileTags.Tag.FirstAlbumArtist;
                 }
                 else
                 {
-                    foreach (var item in musicListView.Items)
+                    if (album != fileTags.Tag.Album)
                     {
-                        var musicFileTags = TagLib.File.Create(GetFileWithPath(item.ToString()));
-                        musicFileTags.Tag.Album = AlbumTextBox.Text;
-                        musicFileTags.Save();
+                        isAlbumTheSame = false;
                     }
-
-                    DisplaySongFromFolder();
-                    InformationLabel.Content = $"All songs albums updated";
+                    if (author != fileTags.Tag.FirstAlbumArtist)
+                    {
+                        isAuthorTheSame = false;
+                    }
                 }
             }
-            catch (Exception exc)
+
+            AlbumTextBox.Text = isAlbumTheSame ? album : null;
+            AuthorTextBox.Text = isAuthorTheSame ? author : null;
+        }
+
+        private void SetFormFieldsForOneSong()
+        {
+            Song selectedSong = (Song)musicListView.SelectedItem;
+
+            TitleTextBox.Text = selectedSong.Title;
+            AuthorTextBox.Text = selectedSong.Artist;
+            AlbumTextBox.Text = selectedSong.Album;
+            SetFileNameButton.IsEnabled = true;
+            SetTitleButton.IsEnabled = true;
+            string extension = Path.GetExtension(GetFileWithPath(selectedSong.FileName));
+            FileNameTextBox.Text = selectedSong.FileName.Replace(extension, "");
+            PlayButton.IsEnabled = true;
+            StopButton.IsEnabled = true;
+        }
+
+        private void UpdateLayoutWhenMoreSongsSelected()
+        {
+            TimerSongCurrentLabel.Content = 0;
+            TimerSongLenghtLabel.Content = 0;
+            SetFileNameButton.IsEnabled = false;
+            SetTitleButton.IsEnabled = false;
+            PlayButton.IsEnabled = false;
+            StopButton.IsEnabled = false;
+        }
+
+        private void ClickApplyButtonFromTextBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            Button applyButton = SelectCorrectApplyButtonByTextBox((TextBox)sender);
+            PressApplyButtonByEnter(applyButton, e);
+        }
+
+        private Button SelectCorrectApplyButtonByTextBox(TextBox textBox)
+        {
+            return textBox.Name switch
             {
-                InformationLabel.Content = $"Error: {exc.Message}";
+                "FileNameTextBox" => SetFileNameButton,
+                "TitleTextBox" => SetTitleButton,
+                "AuthorTextBox" => AuthorSelectedSongButton,
+                "AlbumTextBox" => AlbumSelectedSongButton,
+                "SongNumberTextBox" => NumberSelectedSongButton,
+                _ => null,
+            };
+        }
+
+        private void SetHighlightToApplyButtonFromTextBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            Button applyButton = SelectCorrectApplyButtonByTextBox((TextBox)sender);
+            SetApplyButtonHighlightWhenEnterHolded(applyButton, e);
+        }
+
+        private static void SetApplyButtonHighlightWhenEnterHolded(Button button, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter)
+            {
+                typeof(Button).GetMethod("set_IsPressed", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(button, new object[] { true });
+            }
+            else
+            {
+                typeof(Button).GetMethod("set_IsPressed", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(button, new object[] { false });
+            }
+        }
+
+        private static void PressApplyButtonByEnter(Button button, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Enter && button.IsPressed)
+            {
+                button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                typeof(Button).GetMethod("set_IsPressed", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(button, new object[] { false });
             }
         }
     }

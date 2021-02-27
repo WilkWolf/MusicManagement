@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MusicManagement.Language.Resources {
+namespace MusicManagement.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MusicManagement.Language.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MusicManagement.Language.Resources.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MusicManagement.Resources.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -66,6 +66,15 @@ namespace MusicManagement.Language.Resources {
         public static string Album {
             get {
                 return ResourceManager.GetString("Album", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Album.
+        /// </summary>
+        public static string AlbumColumn {
+            get {
+                return ResourceManager.GetString("AlbumColumn", resourceCulture);
             }
         }
         
@@ -133,6 +142,15 @@ namespace MusicManagement.Language.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Artist.
+        /// </summary>
+        public static string AuthorColumn {
+            get {
+                return ResourceManager.GetString("AuthorColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Author textbox cleared.
         /// </summary>
         public static string AuthorTextBoxCleared {
@@ -156,6 +174,24 @@ namespace MusicManagement.Language.Resources {
         public static string CannotLoadSongs {
             get {
                 return ResourceManager.GetString("CannotLoadSongs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language changed.
+        /// </summary>
+        public static string ChangedLanguage {
+            get {
+                return ResourceManager.GetString("ChangedLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Changed name.
+        /// </summary>
+        public static string ChangedName {
+            get {
+                return ResourceManager.GetString("ChangedName", resourceCulture);
             }
         }
         
@@ -187,6 +223,15 @@ namespace MusicManagement.Language.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duration.
+        /// </summary>
+        public static string DurationColumn {
+            get {
+                return ResourceManager.GetString("DurationColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New name cannot be empty.
         /// </summary>
         public static string EmptyName {
@@ -205,6 +250,15 @@ namespace MusicManagement.Language.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File name.
+        /// </summary>
+        public static string FileNameColumn {
+            get {
+                return ResourceManager.GetString("FileNameColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File name textbox cleared.
         /// </summary>
         public static string FileNameTextBoxCleared {
@@ -219,6 +273,15 @@ namespace MusicManagement.Language.Resources {
         public static string FormTextBoxCleared {
             get {
                 return ResourceManager.GetString("FormTextBoxCleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EN.
+        /// </summary>
+        public static string Localization {
+            get {
+                return ResourceManager.GetString("Localization", resourceCulture);
             }
         }
         
@@ -268,6 +331,15 @@ namespace MusicManagement.Language.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Problem with loaded songs. Please be sure that you selected folder.
+        /// </summary>
+        public static string ProblemWithLoadedSongs {
+            get {
+                return ResourceManager.GetString("ProblemWithLoadedSongs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select folder.
         /// </summary>
         public static string SelectFolder {
@@ -313,11 +385,29 @@ namespace MusicManagement.Language.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Songs loaded.
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
         public static string Title {
             get {
                 return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Title.
+        /// </summary>
+        public static string TitleColumn {
+            get {
+                return ResourceManager.GetString("TitleColumn", resourceCulture);
             }
         }
         
