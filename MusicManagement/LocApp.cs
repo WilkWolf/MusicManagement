@@ -32,7 +32,6 @@ namespace MusicManagement
                 mainWindow.Closed += Wnd_Closed;
                 mainWindow.Show();
                 mainWindow.InformationTextBox.Text = MusicManagement.Resources.Resources.ChangedLanguage;
-
             }
             else
             {

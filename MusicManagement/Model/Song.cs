@@ -14,9 +14,10 @@ namespace MusicManagement.Model
             FileName = filePath.Replace(Path.GetDirectoryName(filePath) + "\\", "");
             Title = file.Tag.Title;
             Album = file.Tag.Album;
-            if(file.Tag.AlbumArtists.ElementAtOrDefault(0) != null)
+            Number = file.Tag.Track;
+            if (file.Tag.AlbumArtists.ElementAtOrDefault(0) != null)
             {
-            Artist = file.Tag.AlbumArtists[0];
+                Artist = file.Tag.AlbumArtists[0];
             }
 
             Mp3FileReader reader = new Mp3FileReader(filePath);
@@ -30,5 +31,6 @@ namespace MusicManagement.Model
         public string Album { get; set; }
         public string Artist { get; set; }
         public TimeSpan Duration { get; set; }
+        public uint Number { get; set; }
     }
 }

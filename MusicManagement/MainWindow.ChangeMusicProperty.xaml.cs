@@ -33,21 +33,22 @@ namespace MusicManagement
         {
             switch (applyButton.Name)
             {
-                case "SetFileNameButton":
+                case "FileNameApplyButton":
                     ChangeFileNameForSong();
                     break;
-                case "SetTitleButton":
+                case "TitleApplyButton":
                     ChangeTitleForSelectedSongs();
                     break;
-                case "AuthorSelectedSongButton":
+                case "AuthorApplyButton":
                     ChangeAuthorForSelectedSongs();
                     break;
-                case "NumberSelectedSongButton":
+                case "NumberApplyButton":
+                    ChangeNumberForSelectedSongs();
                     break;
-                case "AlbumSelectedSongButton":
+                case "AlbumApplyButton":
                     ChangeAlbumForSelectedSongs();
                     break;
-                case "ApplyAlbumToAllSongs":
+                case "AlbumApplyToAllButton":
                     ChangeAlbumForAllSongs();
                     break;
                 case "ApplyAuthorToAllSongs":
@@ -61,15 +62,20 @@ namespace MusicManagement
         private void ChangeFileNameForSong()
         {
             var selectedSong = (Song)musicListView.SelectedItem;
+            string extension = Path.GetExtension(GetFileWithPath(selectedSong.FileName));
+            string oldName = selectedSong.FileName.Replace(extension, "");
 
             string newName = FileNameTextBox.Text;
             if (newName == "")
             {
                 InformationTextBox.Text = MusicManagement.Resources.Resources.EmptyName;
             }
+            else if (newName == oldName)
+            {
+                InformationTextBox.Text = MusicManagement.Resources.Resources.ValueTheSame;
+            }
             else
             {
-                string extension = Path.GetExtension(GetFileWithPath(selectedSong.FileName));
                 newName += extension;
                 File.Move(GetFileWithPath(selectedSong.FileName), GetFileWithPath(newName));
                 InformationTextBox.Text = $"{MusicManagement.Resources.Resources.ChangedName} {selectedSong} => {newName}";
@@ -100,6 +106,23 @@ namespace MusicManagement
             InformationTextBox.Text = MusicManagement.Resources.Resources.AuthorUpdated;
         }
 
+        private void ChangeNumberForSelectedSongs()
+        {
+            try
+            {
+                var selectedSong = (Song)musicListView.SelectedItem;
+                TagLib.File musicFileTags = TagLib.File.Create(GetFileWithPath(selectedSong.FileName));
+                musicFileTags.Tag.Track = Convert.ToUInt32(NumberTextBox.Text);
+                musicFileTags.Save();
+                musicFileTags.Dispose();
+                InformationTextBox.Text = MusicManagement.Resources.Resources.NumberChanged;
+            }
+            catch (Exception exc)
+            {
+                InformationTextBox.Text = exc.Message;
+            }
+        }
+
         private void ChangeAlbumForSelectedSongs()
         {
             foreach (Song item in musicListView.SelectedItems)
@@ -123,6 +146,7 @@ namespace MusicManagement
             }
             InformationTextBox.Text = MusicManagement.Resources.Resources.AllSongsAuthorUpdated;
         }
+
         private void ChangeAlbumForAllSongs()
         {
             foreach (Song item in musicListView.Items)

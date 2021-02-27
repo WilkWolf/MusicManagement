@@ -66,10 +66,18 @@ namespace MusicManagement
 
         private void StopSong()
         {
-            _dispatcherTimer.Stop();
-            _waveOut.Stop();
-            _waveOut.Dispose();
-            _reader.Dispose();
+            try
+            {
+                _dispatcherTimer.Stop();
+                _waveOut.Stop();
+                _waveOut.Dispose();
+                if (_reader != null)
+                    _reader.Dispose();
+            }
+            catch (Exception exc)
+            {
+                InformationTextBox.Text = exc.Message;
+            }
         }
     }
 }

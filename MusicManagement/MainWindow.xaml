@@ -11,7 +11,7 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Style.xaml" />
+                <ResourceDictionary Source="Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
@@ -25,7 +25,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto" MaxWidth="540"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel Margin="10,10,10,176" Grid.Column="1" Grid.Row="1" Orientation="Vertical" MaxHeight="244">
@@ -34,49 +34,49 @@
                 <TextBox x:Name="FileNameTextBox"     Text=""  TextWrapping="Wrap" 
                          PreviewKeyDown="SetHighlightToApplyButtonFromTextBox_PreviewKeyDown" TabIndex="4"
                          PreviewKeyUp="ClickApplyButtonFromTextBox_PreviewKeyUp"/>
-                <Button  x:Name="SetFileNameButton"   Content="{x:Static lang:Resources.Apply}"  Click="ChangeSongProperty_ButtonClick"/>
-                <Button  x:Name="FileNameClearButton" Content="{x:Static lang:Resources.Clear}"  Click="ClearTextBoxFieldByClearButton_ButtonClick" />
+                <Button  x:Name="FileNameApplyButton"   Content="{x:Static lang:Resources.Apply}"  Click="ChangeSongProperty_ButtonClick"/>
+                <Button  x:Name="FileNameClearButton" Content="{x:Static lang:Resources.Clear}"    Click="ClearTextBoxFieldByClearButton_ButtonClick"/>
             </StackPanel>
 
             <StackPanel>
-                <Label   Content="{x:Static lang:Resources.Title}" />
+                <Label   Content="{x:Static lang:Resources.Title}"/>
                 <TextBox x:Name="TitleTextBox"     Text=""  TextWrapping="Wrap" 
                          PreviewKeyDown="SetHighlightToApplyButtonFromTextBox_PreviewKeyDown" 
-                         PreviewKeyUp="ClickApplyButtonFromTextBox_PreviewKeyUp" TabIndex="5" />
-                <Button  x:Name="SetTitleButton"   Content="{x:Static lang:Resources.Apply}" Click="ChangeSongProperty_ButtonClick"/>
-                <Button  x:Name="TitleClearButton" Content="{x:Static lang:Resources.Clear}" Click="ClearTextBoxFieldByClearButton_ButtonClick" />
+                         PreviewKeyUp="ClickApplyButtonFromTextBox_PreviewKeyUp" TabIndex="5"/>
+                <Button  x:Name="TitleApplyButton"   Content="{x:Static lang:Resources.Apply}" Click="ChangeSongProperty_ButtonClick"/>
+                <Button  x:Name="TitleClearButton" Content="{x:Static lang:Resources.Clear}"   Click="ClearTextBoxFieldByClearButton_ButtonClick"/>
             </StackPanel>
 
             <StackPanel>
-                <Label   Content="{x:Static lang:Resources.Author}" />
+                <Label   Content="{x:Static lang:Resources.Author}"/>
                 <TextBox x:Name="AuthorTextBox"            Text=""  TextWrapping="Wrap" 
                          PreviewKeyDown="SetHighlightToApplyButtonFromTextBox_PreviewKeyDown" 
                          PreviewKeyUp="ClickApplyButtonFromTextBox_PreviewKeyUp" TabIndex="6"/>
-                <Button  x:Name="AuthorSelectedSongButton" Content="{x:Static lang:Resources.Apply}"      Click="ChangeSongProperty_ButtonClick"/>
-                <Button  x:Name="ApplyAuthorToAllSongs"                                                   Click="ChangeSongProperty_ButtonClick" Width="70" MaxHeight="26">
-                    <TextBlock Text="{x:Static lang:Resources.ApplyToAll}" TextWrapping="Wrap" TextAlignment="Center" MaxHeight="26" FontSize="9"/>
+                <Button  x:Name="AuthorApplyButton" Content="{x:Static lang:Resources.Apply}"      Click="ChangeSongProperty_ButtonClick"/>
+                <Button  x:Name="AuthorApplyToAllButton"                                           Click="ChangeSongProperty_ButtonClick" Width="70">
+                    <TextBlock x:Name="AuthorApplyToAllTextBox" Text="{x:Static lang:Resources.ApplyToAll}" TextWrapping="Wrap" SizeChanged="AuthorApplyToAllTextBox_SizeChanged"/>
                 </Button>
                 <Button  x:Name="AuthorClearButton"        Content="{x:Static lang:Resources.Clear}"      Click="ClearTextBoxFieldByClearButton_ButtonClick"/>
             </StackPanel>
 
             <StackPanel>
-                <Label   Content="{x:Static lang:Resources.Album}" />
+                <Label   Content="{x:Static lang:Resources.Album}"/>
                 <TextBox x:Name="AlbumTextBox"            Text=""  TextWrapping="Wrap" 
                          PreviewKeyDown="SetHighlightToApplyButtonFromTextBox_PreviewKeyDown"
                          PreviewKeyUp="ClickApplyButtonFromTextBox_PreviewKeyUp" TabIndex="7"/>
-                <Button  x:Name="AlbumSelectedSongButton" Content="{x:Static lang:Resources.Apply}" Click="ChangeSongProperty_ButtonClick"/>
-                <Button  x:Name="ApplyAlbumToAllSongs"                                              Click="ChangeSongProperty_ButtonClick" MaxHeight="26">
-                    <TextBlock Text="{x:Static lang:Resources.ApplyToAll}" TextWrapping="Wrap"    TextAlignment="Center" MaxHeight="26" FontSize="11"/>
+                <Button  x:Name="AlbumApplyButton" Content="{x:Static lang:Resources.Apply}" Click="ChangeSongProperty_ButtonClick"/>
+                <Button  x:Name="AlbumApplyToAllButton"                                              Click="ChangeSongProperty_ButtonClick" Width="70">
+                    <TextBlock x:Name="AlbumApplyToAllTextBox" Text="{x:Static lang:Resources.ApplyToAll}" TextWrapping="Wrap"   SizeChanged="AuthorApplyToAllTextBox_SizeChanged"/>
                 </Button>
                 <Button  x:Name="AlbumClearButton"        Content="{x:Static lang:Resources.Clear}" Click="ClearTextBoxFieldByClearButton_ButtonClick"/>
             </StackPanel>
 
             <StackPanel>
-                <Label   Content="{x:Static lang:Resources.Number}" />
-                <TextBox x:Name="SongNumberTextBox"        Text=""  TextWrapping="Wrap" 
+                <Label   Content="{x:Static lang:Resources.Number}"/>
+                <TextBox x:Name="NumberTextBox"        Text=""  TextWrapping="Wrap" 
                          PreviewKeyDown="SetHighlightToApplyButtonFromTextBox_PreviewKeyDown" 
                          PreviewKeyUp="ClickApplyButtonFromTextBox_PreviewKeyUp" TabIndex="8"/>
-                <Button  x:Name="NumberSelectedSongButton" Content="{x:Static lang:Resources.Apply}" Click="ChangeSongProperty_ButtonClick" />
+                <Button  x:Name="NumberApplyButton" Content="{x:Static lang:Resources.Apply}" Click="ChangeSongProperty_ButtonClick"/>
                 <Button  x:Name="NumberClearButton"        Content="{x:Static lang:Resources.Clear}" Click="ClearTextBoxFieldByClearButton_ButtonClick"/>
             </StackPanel>
 
@@ -99,6 +99,7 @@
                         <GridViewColumn Header="{x:Static lang:Resources.TitleColumn}"    DisplayMemberBinding="{Binding Title}"/>
                         <GridViewColumn Header="{x:Static lang:Resources.AlbumColumn}"    DisplayMemberBinding="{Binding Album}"/>
                         <GridViewColumn Header="{x:Static lang:Resources.AuthorColumn}"   DisplayMemberBinding="{Binding Artist}"/>
+                        <GridViewColumn Header="{x:Static lang:Resources.Number}"         DisplayMemberBinding="{Binding Number}"/>
                         <GridViewColumn Header="{x:Static lang:Resources.DurationColumn}" DisplayMemberBinding="{Binding Duration}"/>
                     </GridView>
                 </ListView.View>
@@ -121,7 +122,7 @@
             </StackPanel>
 
             <StackPanel>
-                <ProgressBar x:Name="SongProgressBar"       Height="26" Width="467" IsTabStop="False"/>
+                <ProgressBar x:Name="SongProgressBar"       IsTabStop="False"/>
                 <Label       x:Name="TimerSongCurrentLabel" Content="0" Width="20"/>
                 <Label                                      Content="/" Width="20"/>
                 <Label       x:Name="TimerSongLenghtLabel"  Content="0" Width="20"/>

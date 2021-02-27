@@ -322,6 +322,15 @@ namespace MusicManagement.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Track number changed.
+        /// </summary>
+        public static string NumberChanged {
+            get {
+                return ResourceManager.GetString("NumberChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Play.
         /// </summary>
         public static string Play {
@@ -435,6 +444,15 @@ namespace MusicManagement.Resources {
         public static string Unselect {
             get {
                 return ResourceManager.GetString("Unselect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New value is the same as old.
+        /// </summary>
+        public static string ValueTheSame {
+            get {
+                return ResourceManager.GetString("ValueTheSame", resourceCulture);
             }
         }
     }

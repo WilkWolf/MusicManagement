@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
 using System.Reflection;
 using System.Windows.Controls;
@@ -50,12 +51,13 @@ namespace MusicManagement
                 {
                     _folderName = openFileDlg.SelectedPath;
                 }
-                catch (System.Exception exc)
+                catch (Exception exc)
                 {
                     InformationTextBox.Text = MusicManagement.Resources.Resources.NoDictionarySelected;
                 }
             }
             DisplaySongFromFolder();
+            InformationTextBox.Text = MusicManagement.Resources.Resources.SongsLoaded;
         }
 
         private void DisplaySongFromFolder()
@@ -70,10 +72,9 @@ namespace MusicManagement
                     Song song = new Song(item);
                     musicListView.Items.Add(song);
                 }
-                InformationTextBox.Text = MusicManagement.Resources.Resources.SongsLoaded;
 
             }
-            catch (System.Exception exc)
+            catch (Exception exc)
             {
                 InformationTextBox.Text = MusicManagement.Resources.Resources.ProblemWithLoadedSongs;
             }
@@ -108,7 +109,7 @@ namespace MusicManagement
                     InformationTextBox.Text = MusicManagement.Resources.Resources.AlbumTextBoxCleared;
                     return AlbumTextBox;
                 case "NumberClearButton":
-                    return SongNumberTextBox;
+                    return NumberTextBox;
                 default:
                     return null;
             }
@@ -137,30 +138,37 @@ namespace MusicManagement
 
         private void DroppedFiles(object sender, DragEventArgs dragEvent)
         {
-            musicListView.Items.Clear();
-
-            var files = (string[])dragEvent.Data.GetData(DataFormats.FileDrop);
-
-            foreach (string droppedFile in files)
+            try
             {
-                if (Directory.Exists(droppedFile))
+                musicListView.Items.Clear();
+
+                var files = (string[])dragEvent.Data.GetData(DataFormats.FileDrop);
+
+                foreach (string droppedFile in files)
                 {
-                    foreach (var file in Directory.GetFiles(droppedFile, "*.*", SearchOption.TopDirectoryOnly))
+                    if (Directory.Exists(droppedFile))
                     {
-                        Song song = new Song(file);
-                        musicListView.Items.Add(song);
+                        foreach (var file in Directory.GetFiles(droppedFile, "*.*", SearchOption.TopDirectoryOnly))
+                        {
+                            Song song = new Song(file);
+                            musicListView.Items.Add(song);
+                        }
+                        _folderName = droppedFile;
                     }
-                    _folderName = droppedFile;
-                }
-                else if (File.Exists(droppedFile))
-                {
-                    var file = Path.GetFileName(droppedFile);
+                    else if (File.Exists(droppedFile))
+                    {
+                        var file = Path.GetFileName(droppedFile);
 
-                    Song song = new Song(droppedFile);
-                    musicListView.Items.Add(song);
+                        Song song = new Song(droppedFile);
+                        musicListView.Items.Add(song);
 
-                    _folderName = Path.GetDirectoryName(droppedFile).Replace(file, "");
+                        _folderName = Path.GetDirectoryName(droppedFile).Replace(file, "");
+                    }
                 }
+            }
+            catch (Exception exc)
+            {
+                InformationTextBox.Text = exc.Message;
             }
         }
 
@@ -219,22 +227,23 @@ namespace MusicManagement
             TitleTextBox.Text = selectedSong.Title;
             AuthorTextBox.Text = selectedSong.Artist;
             AlbumTextBox.Text = selectedSong.Album;
-            SetFileNameButton.IsEnabled = true;
-            SetTitleButton.IsEnabled = true;
             string extension = Path.GetExtension(GetFileWithPath(selectedSong.FileName));
             FileNameTextBox.Text = selectedSong.FileName.Replace(extension, "");
-            PlayButton.IsEnabled = true;
-            StopButton.IsEnabled = true;
+            ChangeButtonEnableProperty(true);
         }
-
         private void UpdateLayoutWhenMoreSongsSelected()
         {
             TimerSongCurrentLabel.Content = 0;
             TimerSongLenghtLabel.Content = 0;
-            SetFileNameButton.IsEnabled = false;
-            SetTitleButton.IsEnabled = false;
-            PlayButton.IsEnabled = false;
-            StopButton.IsEnabled = false;
+            ChangeButtonEnableProperty(false);
+        }
+
+        private void ChangeButtonEnableProperty(Boolean isActive)
+        {
+            FileNameApplyButton.IsEnabled = isActive;
+            TitleApplyButton.IsEnabled = isActive;
+            PlayButton.IsEnabled = isActive;
+            StopButton.IsEnabled = isActive;
         }
 
         private void ClickApplyButtonFromTextBox_PreviewKeyUp(object sender, System.Windows.Input.KeyEventArgs e)
@@ -247,11 +256,11 @@ namespace MusicManagement
         {
             return textBox.Name switch
             {
-                "FileNameTextBox" => SetFileNameButton,
-                "TitleTextBox" => SetTitleButton,
-                "AuthorTextBox" => AuthorSelectedSongButton,
-                "AlbumTextBox" => AlbumSelectedSongButton,
-                "SongNumberTextBox" => NumberSelectedSongButton,
+                "FileNameTextBox" => FileNameApplyButton,
+                "TitleTextBox" => TitleApplyButton,
+                "AuthorTextBox" => AuthorApplyButton,
+                "AlbumTextBox" => AlbumApplyButton,
+                "NumberTextBox" => NumberApplyButton,
                 _ => null,
             };
         }
@@ -281,6 +290,19 @@ namespace MusicManagement
                 button.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                 typeof(Button).GetMethod("set_IsPressed", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(button, new object[] { false });
             }
+        }
+
+        private void AuthorApplyToAllTextBox_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            TextBlock textBlock = (TextBlock)sender;
+            double desiredHeight = 21;
+
+            if (textBlock.ActualHeight > desiredHeight)
+            {
+                double fontSizeMultiplier = Math.Sqrt(desiredHeight / textBlock.ActualHeight);
+                textBlock.FontSize *= fontSizeMultiplier;
+            }
+            textBlock.Height = desiredHeight;
         }
     }
 }

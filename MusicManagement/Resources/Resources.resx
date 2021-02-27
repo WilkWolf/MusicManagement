@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Album" xml:space="preserve">
     <value>Album</value>
@@ -233,6 +233,10 @@
     <value>Number</value>
     <comment>UI</comment>
   </data>
+  <data name="NumberChanged" xml:space="preserve">
+    <value>Track number changed</value>
+    <comment>UI</comment>
+  </data>
   <data name="Play" xml:space="preserve">
     <value>Play</value>
     <comment>UI</comment>
@@ -282,5 +286,9 @@
   <data name="Unselect" xml:space="preserve">
     <value>Unselect</value>
     <comment>UI</comment>
+  </data>
+  <data name="ValueTheSame" xml:space="preserve">
+    <value>New value is the same as old</value>
+    <comment>Information</comment>
   </data>
 </root>
