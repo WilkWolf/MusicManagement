@@ -4,86 +4,129 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicManagement"
-        xmlns:lang="clr-namespace:MusicManagement.Language;assembly=MusicManagement.Language"
+        xmlns:lang="clr-namespace:MusicManagement.Resources;assembly=MusicManagement"
         mc:Ignorable="d"
-        Title="MainWindow" Height="475" Width="950">
+        Title="Music Management" Background="LightGray" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="31*"/>
-            <RowDefinition Height="428*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" MaxHeight="425"/>
         </Grid.RowDefinitions>
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="401*"/>
-            <ColumnDefinition Width="549*"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto" MaxWidth="540"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Margin="10,10,0,74" Grid.Column="1" Grid.Row="1">
-            <StackPanel Background="AntiqueWhite" Orientation="Horizontal" VerticalAlignment="Top" >
-                <Label Content="File name" Height="30" Width="70"/>
-                <TextBox Text="" x:Name="FileNameTextBox" TextWrapping="Wrap" Width="200" Height="18" />
-                <Button Content="Apply" x:Name="SetFileNameButton" Width="70" Margin="5,2,5,2" Click="ChangeSongFileName_ButtonClick"/>
-                <Button Content="Clear" Width="70" Margin="5,2,5,2" Click="ClearFileNameTextBox_ButtonClick" />
+
+        <StackPanel Margin="10,10,10,176" Grid.Column="1" Grid.Row="1" Orientation="Vertical" MaxHeight="244">
+            <StackPanel>
+                <Label   Content="{x:Static lang:Resources.FileName}"/>
+                <TextBox x:Name="FileNameTextBox"     Text=""  TextWrapping="Wrap" 
+                         PreviewKeyDown="SetHighlightToApplyButtonFromTextBox_PreviewKeyDown" TabIndex="4"
+                         PreviewKeyUp="ClickApplyButtonFromTextBox_PreviewKeyUp"/>
+                <Button  x:Name="FileNameApplyButton"   Content="{x:Static lang:Resources.Apply}"  Click="ChangeSongProperty_ButtonClick"/>
+                <Button  x:Name="FileNameClearButton" Content="{x:Static lang:Resources.Clear}"    Click="ClearTextBoxFieldByClearButton_ButtonClick"/>
             </StackPanel>
 
-            <StackPanel Background="AntiqueWhite" Orientation="Horizontal" VerticalAlignment="Top" >
-                <Label Content="Title" Height="30" Width="70"/>
-                <TextBox Text="" x:Name="TitleTextBox" TextWrapping="Wrap" Width="200" Height="18" />
-                <Button Content="Apply" x:Name="SetTitleButton" Width="70" Margin="5,2,5,2" Click="ChangeSongTitle_ButtonClick"/>
-                <Button Content="Clear" Width="70" Margin="5,2,5,2" Click="ClearTitleTextBox_ButtonClick" />
+            <StackPanel>
+                <Label   Content="{x:Static lang:Resources.Title}"/>
+                <TextBox x:Name="TitleTextBox"     Text=""  TextWrapping="Wrap" 
+                         PreviewKeyDown="SetHighlightToApplyButtonFromTextBox_PreviewKeyDown" 
+                         PreviewKeyUp="ClickApplyButtonFromTextBox_PreviewKeyUp" TabIndex="5"/>
+                <Button  x:Name="TitleApplyButton"   Content="{x:Static lang:Resources.Apply}" Click="ChangeSongProperty_ButtonClick"/>
+                <Button  x:Name="TitleClearButton" Content="{x:Static lang:Resources.Clear}"   Click="ClearTextBoxFieldByClearButton_ButtonClick"/>
             </StackPanel>
 
-            <StackPanel Background="AntiqueWhite" Orientation="Horizontal">
-                <Label Content="Author" Height="30" Width="70"/>
-                <TextBox Text="" x:Name="AuthorTextBox" TextWrapping="Wrap" Width="200" Height="18"/>
-                <Button Content="Apply" x:Name="AuthorSelectedSongButton" Width="70" Margin="5,2,5,2" Click="ChangeAuthorForSelectedSongs_ButtonClick"/>
-                <Button Content="Apply to all" Width="70" Margin="5,2,5,2" Click="ChangeAuthorForAllSongs_ButtonClick"/>
-                <Button Content="Clear" Width="70" Margin="5,2,5,2" Click="ClearAuthorTextBoxButtonClick"/>
+            <StackPanel>
+                <Label   Content="{x:Static lang:Resources.Author}"/>
+                <TextBox x:Name="AuthorTextBox"            Text=""  TextWrapping="Wrap" 
+                         PreviewKeyDown="SetHighlightToApplyButtonFromTextBox_PreviewKeyDown" 
+                         PreviewKeyUp="ClickApplyButtonFromTextBox_PreviewKeyUp" TabIndex="6"/>
+                <Button  x:Name="AuthorApplyButton" Content="{x:Static lang:Resources.Apply}"      Click="ChangeSongProperty_ButtonClick"/>
+                <Button  x:Name="AuthorApplyToAllButton"                                           Click="ChangeSongProperty_ButtonClick" Width="70">
+                    <TextBlock x:Name="AuthorApplyToAllTextBox" Text="{x:Static lang:Resources.ApplyToAll}" TextWrapping="Wrap" SizeChanged="AuthorApplyToAllTextBox_SizeChanged"/>
+                </Button>
+                <Button  x:Name="AuthorClearButton"        Content="{x:Static lang:Resources.Clear}"      Click="ClearTextBoxFieldByClearButton_ButtonClick"/>
             </StackPanel>
 
-            <StackPanel Background="AntiqueWhite" Orientation="Horizontal" VerticalAlignment="Top" >
-                <Label Content="Album" Height="30" Width="70"/>
-                <TextBox Text="" x:Name="AlbumTextBox" TextWrapping="Wrap" Width="200" Height="18"/>
-                <Button Content="Apply" x:Name="AlbumSelectedSongButton" Width="70" Margin="5,2,5,2" Click="ChangeAlbumForSelectedSongs_ButtonClick"/>
-                <Button Content="Apply to all" Width="70" Margin="5,2,5,2" Click="ChangeAlbumForAllSongs_ButtonClick"/>
-                <Button Content="Clear" Width="70" Margin="5,2,5,2" Click="ClearAlbumTextBoxButtonClick"/>
+            <StackPanel>
+                <Label   Content="{x:Static lang:Resources.Album}"/>
+                <TextBox x:Name="AlbumTextBox"            Text=""  TextWrapping="Wrap" 
+                         PreviewKeyDown="SetHighlightToApplyButtonFromTextBox_PreviewKeyDown"
+                         PreviewKeyUp="ClickApplyButtonFromTextBox_PreviewKeyUp" TabIndex="7"/>
+                <Button  x:Name="AlbumApplyButton" Content="{x:Static lang:Resources.Apply}" Click="ChangeSongProperty_ButtonClick"/>
+                <Button  x:Name="AlbumApplyToAllButton"                                              Click="ChangeSongProperty_ButtonClick" Width="70">
+                    <TextBlock x:Name="AlbumApplyToAllTextBox" Text="{x:Static lang:Resources.ApplyToAll}" TextWrapping="Wrap"   SizeChanged="AuthorApplyToAllTextBox_SizeChanged"/>
+                </Button>
+                <Button  x:Name="AlbumClearButton"        Content="{x:Static lang:Resources.Clear}" Click="ClearTextBoxFieldByClearButton_ButtonClick"/>
             </StackPanel>
-            <StackPanel Background="AntiqueWhite" Orientation="Horizontal" VerticalAlignment="Top" >
-                <Label Content="Number" Height="30" Width="70"/>
-                <TextBox Text="" x:Name="SongNumberTextBox" TextWrapping="Wrap" Width="200" Height="18"/>
-                <Button Content="Apply" Width="70" Margin="5,2,5,2" Click="ChangeAlbumForSelectedSongs_ButtonClick"/>
-                <Button Content="Clear" Width="70" Margin="5,2,5,2" Click="ClearAlbumTextBoxButtonClick"/>
+
+            <StackPanel>
+                <Label   Content="{x:Static lang:Resources.Number}"/>
+                <TextBox x:Name="NumberTextBox"        Text=""  TextWrapping="Wrap" 
+                         PreviewKeyDown="SetHighlightToApplyButtonFromTextBox_PreviewKeyDown" 
+                         PreviewKeyUp="ClickApplyButtonFromTextBox_PreviewKeyUp" TabIndex="8"/>
+                <Button  x:Name="NumberApplyButton" Content="{x:Static lang:Resources.Apply}" Click="ChangeSongProperty_ButtonClick"/>
+                <Button  x:Name="NumberClearButton"        Content="{x:Static lang:Resources.Clear}" Click="ClearTextBoxFieldByClearButton_ButtonClick"/>
             </StackPanel>
-            <StackPanel Background="AntiqueWhite" Orientation="Horizontal"   Width="618" >
-                <Button Content="Clear form" Width="105" Click="ClearFormBoxButtonClick" />
+
+            <StackPanel>
+                <Button Content="{x:Static lang:Resources.ClearForm}" Click="ClearFormBoxButtonClick"/>
             </StackPanel>
-            <StackPanel Background="AntiqueWhite" Orientation="Horizontal"   Width="482">
-                <Label Content="Setting save" x:Name="InformationLabel" Height="30" Width="482"/>
+
+            <StackPanel>
+                <Label  Width="531" Height="50">
+                    <TextBlock x:Name="InformationTextBox" TextWrapping="WrapWithOverflow"  Width="500" Height="40"/>
+                </Label>
             </StackPanel>
         </StackPanel>
-        <StackPanel Margin="0,10,10,0" Background="WhiteSmoke" Grid.Row="1">
-            <ListView Name="musicListView" Height="400" SelectionChanged="MusicListView_SelectionChanged">
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" Grid.Column="0" VerticalAlignment="top" Margin="0,10,0,0">
+            <ListView Name="musicListView" Height="410" SelectionChanged="MusicListView_SelectionChanged" AllowDrop="True" Drop="DroppedFiles">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn/>
+                        <GridViewColumn Header="{x:Static lang:Resources.FileNameColumn}" DisplayMemberBinding="{Binding FileName}"/>
+                        <GridViewColumn Header="{x:Static lang:Resources.TitleColumn}"    DisplayMemberBinding="{Binding Title}"/>
+                        <GridViewColumn Header="{x:Static lang:Resources.AlbumColumn}"    DisplayMemberBinding="{Binding Album}"/>
+                        <GridViewColumn Header="{x:Static lang:Resources.AuthorColumn}"   DisplayMemberBinding="{Binding Artist}"/>
+                        <GridViewColumn Header="{x:Static lang:Resources.Number}"         DisplayMemberBinding="{Binding Number}"/>
+                        <GridViewColumn Header="{x:Static lang:Resources.DurationColumn}" DisplayMemberBinding="{Binding Duration}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
         </StackPanel>
-        <StackPanel Margin="5,0,10,0"  Orientation="Horizontal" Grid.ColumnSpan="2">
-            <Button Content="Unselect" Width="90" Click="Unselect_ButtonClick"/>
-            <!---{x:Static lang:Resources.Album}-->
-            <Button Content="Clear list" Width="90" Click="ClearListView_ButtonClick" />
-            <Button Content="Select folder" Width="90" Click="GetFoldersContent_ButtonClick"/>
-        </StackPanel>
-        <StackPanel Grid.Column="1" Grid.Row="1" Margin="10,359,0,0" >
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Play" Width="70"/>
-                <Button Content="Stop" Width="70"/>
+        <StackPanel Margin="0,0,0,0" Grid.ColumnSpan="2">
+            <StackPanel  HorizontalAlignment="Left">
+                <Button Content="{x:Static lang:Resources.Unselect}"     Click="Unselect_ButtonClick"          Width="90" TabIndex="1"/>
+                <Button Content="{x:Static lang:Resources.ClearList}"    Click="ClearListView_ButtonClick"     Width="90" TabIndex="2"/>
+                <Button Content="{x:Static lang:Resources.SelectFolder}" Click="GetFoldersContent_ButtonClick" Width="90" TabIndex="3"/>
             </StackPanel>
+            <StackPanel  HorizontalAlignment="Right" Margin="560,0,0,0">
+                <Button Content="{x:Static lang:Resources.Localization}" Click="ChangeLanguage_ButtonClick" Width="90"  x:Name="LanguageButton" IsTabStop="False"/>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="10,355,10,0" Orientation="Vertical" Height="65" VerticalAlignment="Top">
+            <StackPanel >
+                <Button x:Name="PlayButton" Content="{x:Static lang:Resources.Play}" Click="PlaySelectedSong_ButtonClick"/>
+                <Button x:Name="StopButton" Content="{x:Static lang:Resources.Stop}" Click="StopSelectedSong_ButtonClick"/>
+            </StackPanel>
+
             <StackPanel>
-                <ProgressBar x:Name="SongProgressBar" Height="26" />
+                <ProgressBar x:Name="SongProgressBar"       IsTabStop="False"/>
+                <Label       x:Name="TimerSongCurrentLabel" Content="0" Width="20"/>
+                <Label                                      Content="/" Width="20"/>
+                <Label       x:Name="TimerSongLenghtLabel"  Content="0" Width="20"/>
             </StackPanel>
-
         </StackPanel>
-
     </Grid>
 </Window>

@@ -112,12 +112,16 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Album" xml:space="preserve">
+    <value>Album</value>
+    <comment>UI</comment>
+  </data>
+  <data name="AlbumColumn" xml:space="preserve">
     <value>Album</value>
     <comment>UI</comment>
   </data>
@@ -149,6 +153,10 @@
     <value>Autor</value>
     <comment>UI</comment>
   </data>
+  <data name="AuthorColumn" xml:space="preserve">
+    <value>Autor</value>
+    <comment>UI</comment>
+  </data>
   <data name="AuthorTextBoxCleared" xml:space="preserve">
     <value>Wyczyszczono pole tekstowe autor</value>
     <comment>Information</comment>
@@ -160,6 +168,14 @@
   <data name="CannotLoadSongs" xml:space="preserve">
     <value>Problem z załadowaniem piosenek. Proszę sprawdź czy wybrano właściwy folder</value>
     <comment>Warrning</comment>
+  </data>
+  <data name="ChangedLanguage" xml:space="preserve">
+    <value>Zmieniono język</value>
+    <comment>Information</comment>
+  </data>
+  <data name="ChangedName" xml:space="preserve">
+    <value>Zmieniaono nazwę</value>
+    <comment>UI</comment>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>Wyczyść</value>
@@ -173,11 +189,19 @@
     <value>Wyczyść listę</value>
     <comment>UI</comment>
   </data>
+  <data name="DurationColumn" xml:space="preserve">
+    <value>Czas trwania</value>
+    <comment>UI</comment>
+  </data>
   <data name="EmptyName" xml:space="preserve">
     <value>Nowa nazwa nie może być pusta</value>
     <comment>Warrning</comment>
   </data>
   <data name="FileName" xml:space="preserve">
+    <value>Nazwa pliku</value>
+    <comment>UI</comment>
+  </data>
+  <data name="FileNameColumn" xml:space="preserve">
     <value>Nazwa pliku</value>
     <comment>UI</comment>
   </data>
@@ -188,6 +212,10 @@
   <data name="FormTextBoxCleared" xml:space="preserve">
     <value>Wszystkie pola wyczyszczono</value>
     <comment>Information</comment>
+  </data>
+  <data name="Localization" xml:space="preserve">
+    <value>PL</value>
+    <comment>UI</comment>
   </data>
   <data name="NoDictionarySelected" xml:space="preserve">
     <value>Nie wybrano folderu</value>
@@ -203,6 +231,10 @@
   </data>
   <data name="Number" xml:space="preserve">
     <value>Numer</value>
+    <comment>UI</comment>
+  </data>
+  <data name="NumberChanged" xml:space="preserve">
+    <value>Numer piosenki zmieniony</value>
     <comment>UI</comment>
   </data>
   <data name="Play" xml:space="preserve">
@@ -233,6 +265,10 @@
     <value>Tytuł</value>
     <comment>UI</comment>
   </data>
+  <data name="TitleColumn" xml:space="preserve">
+    <value>Tytuł</value>
+    <comment>UI</comment>
+  </data>
   <data name="TitleTextBoxCleared" xml:space="preserve">
     <value>Wyczyszczono pole tekstowe tytuł</value>
     <comment>Information</comment>
@@ -244,5 +280,9 @@
   <data name="Unselect" xml:space="preserve">
     <value>Odznacz</value>
     <comment>UI</comment>
+  </data>
+  <data name="ValueTheSame" xml:space="preserve">
+    <value>Nowa wartość jest taka sama jak poprzednia</value>
+    <comment>Information</comment>
   </data>
 </root>
